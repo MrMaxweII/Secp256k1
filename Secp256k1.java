@@ -60,9 +60,9 @@ public BigInteger[] sig(byte[] hash, byte[] privKey, byte[] random)
 	BigInteger rand = new BigInteger(1,ran);
 	BigInteger[] out= new BigInteger[2];	
 	BigInteger r  = multiply_G(rand)[0];
-	BigInteger r_x_priv	=	r.multiply(new BigInteger(1,privKey)).mod(ORDNUNG);	
-	BigInteger zähler	=	(new BigInteger(1,hash).add(r_x_priv)).mod(ORDNUNG);     
-	BigInteger k_inverse	= 	rand.modInverse(ORDNUNG);
+	BigInteger r_x_priv	= r.multiply(new BigInteger(1,privKey)).mod(ORDNUNG);	
+	BigInteger zähler	= (new BigInteger(1,hash).add(r_x_priv)).mod(ORDNUNG);     
+	BigInteger k_inverse	= rand.modInverse(ORDNUNG);
 	out[0] = r;	
 	out[1] = k_inverse.multiply(zähler).mod(ORDNUNG);	
 	return out;
