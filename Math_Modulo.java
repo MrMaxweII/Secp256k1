@@ -2,10 +2,10 @@ import java.math.*;
 
 
 	/****************************************************************************************   
-	 *                                           											*
-	 *   Math_Modulo Class V1.1                           									*
-	 *   Hier werden mathematische Berechnungen definiert  über den Zahlenraum Modulo "p"  	*
-	 *                                         												*
+	 *                                           						*
+	 *   Math_Modulo Class V1.1                           					*
+	 *   Hier werden mathematische Berechnungen definiert über den Zahlenraum Modulo "p"  	*
+	 *                                         						*
 	 ****************************************************************************************/
  
 
@@ -93,7 +93,7 @@ static BigInteger inv(BigInteger a)
 
 
 
-/** Diese Funktion berechnet die Zahl 1/2 mit der auf der elliptischen Kurve durch zwei geteilt werden kann.  */
+/** Diese Funktion berechnet die Zahl 1/2, mit der auf der elliptischen Kurve durch zwei geteilt werden kann.  */
 static BigInteger calcHalb(BigInteger a)
 {
 	return a.modInverse(ORDNUNG);
