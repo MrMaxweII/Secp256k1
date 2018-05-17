@@ -3,19 +3,19 @@ import java.util.Random;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 
-	/********************************************************************************************
-	 * 	Hier werden die Funktionen und die Laufzeit von Secp256k1 getestet.  					*       
-	 *																							* 
-	 ********************************************************************************************/
+	/****************************************************************************************
+	 * 	Hier werden die Funktionen und die Laufzeit von Secp256k1 getestet.  		*       
+	 *											* 
+	 ****************************************************************************************/
 
 
 public class Test 
 {
 
-final static int 		testRuns= 1000;	// Hier die Anzahl der Testläufe änerden!
+final static int 	testRuns= 1000;	// Hier die Anzahl der Testläufe änerden!
 public static byte[] 	rand;
 public static byte[] 	hash;
-public static  byte[]	priv;
+public static byte[]	priv;
 private static BigInteger[]	pub 	= new BigInteger[2];																						
 private static BigInteger[]	sig 	= new BigInteger[2];	
 
@@ -31,11 +31,11 @@ public static void main(String[] args)
 // Erstellt eine Signatur mit vorgegebenen Parametern.
 private static void createOneSig()
 {
-	rand 	= hexStringToByteArray	("000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");								// Zufall (K)
+	rand 	= hexStringToByteArray	("000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");					// Zufall (K)
 	hash 	= hexStringToByteArray	("fff88df40bcedbe641ddb16ff0a1842d9c67ea1c3bf63f3e0471baa664531d1a");		// Hash	  (M)
 	priv 	= hexStringToByteArray	("fff112222233333444445555566666777778888899999aaaaabbbbbcccccdddd");		// Priv.Key
-	pub[0] = new BigInteger			("FF409479FF9667B49F4BEDFE3191E6078C15873012E6D05A534EA9DB6FA9736B",16);	// Pub.Key x
-	pub[1] = new BigInteger			("4307E003C4D2E575435414970F8C971758AD64C697B1BB6EA25F9C624CF54422",16);	// Pub.Key y
+	pub[0] = new BigInteger		("FF409479FF9667B49F4BEDFE3191E6078C15873012E6D05A534EA9DB6FA9736B",16);	// Pub.Key x
+	pub[1] = new BigInteger		("4307E003C4D2E575435414970F8C971758AD64C697B1BB6EA25F9C624CF54422",16);	// Pub.Key y
 	bouncastleSigTest();
 	maxwell_sigTest();
 }
@@ -47,8 +47,8 @@ private static void createOneSig()
 private static void allRandomTest()
 {
 	priv 	= hexStringToByteArray	("111112222233333444445555566666777778888899999aaaaabbbbbcccccdddd");		// Priv.Key
-	pub[0] = new BigInteger			("CAD5E868FC3437CB26423166631D6DA9185991D37252AA6A5C898956BF288AA2",16);	// Pub.Key x
-	pub[1] = new BigInteger			("E5866FE1B7A9E0DB979F48A118B987148E97C50F76F585FAFD2D2A791164C74F",16);	// Pub.Key y
+	pub[0] = new BigInteger		("CAD5E868FC3437CB26423166631D6DA9185991D37252AA6A5C898956BF288AA2",16);	// Pub.Key x
+	pub[1] = new BigInteger		("E5866FE1B7A9E0DB979F48A118B987148E97C50F76F585FAFD2D2A791164C74F",16);	// Pub.Key y
 	for(int i=0; i<testRuns; i++) 
 	{	
 		Random k = new Random();
@@ -75,8 +75,7 @@ private static boolean bouncastleSigTest()
 	System.out.println	("Hash   (M) =   "+byteArrayToHexString(hash));
 	System.out.println	("Priv.Key   =   "+byteArrayToHexString(priv));
 	System.out.print	("Pub.Key    =  "); print(pub);
-	System.out.print	("Sig. r , s =  "); print(sig);
-	
+	System.out.print	("Sig. r , s =  "); print(sig);	
 	if(BouncycastleSig.verify(hash, sig, pub)) { System.out.println("verifyTest_bouncycastle: true\n"); return true;}
 	else{ System.out.println("\n>>>>>>>>>>>>>>>>>>>>>    verifyTest_bouncycastle,  Error, signature fails!\n"); return false;}
 }
@@ -126,7 +125,7 @@ private static void VergleichsTest()
 		b = pubK2[0].toString(16);
 		System.out.printf("\nPublic  Key: %S\n",b);	  
 		if(pubK1[0].equals(pubK2[0])) System.out.println("correct!");
-		else {System.out.println(" >>>>>>>>>>>>>>>>>>>>> Not correct! Schlüssel sind nicht gleich! <<<<<<<<<<<<<<<<<<<<<<<"); break; }	  
+		else {System.out.println(" >>>>>>>>>>>>>>>>>>>>> Not correct! Schlüssel sind nicht gleich! <<<<<<<<<<"); break; }	  
 		System.out.printf("Zeit: %d ms\n", msec);
 		msec = System.currentTimeMillis()-t0;
 	}
@@ -182,8 +181,7 @@ private static void print(BigInteger[] P)
 //Hexa String wird in ein Byte Array konvertiert
 private static byte[] hexStringToByteArray(String hex) 
 {                                                                     
-	//return Hex.decode(hex);
-	if((hex.length()%2)==1)                                           // Falls die Länge des Strings ungerade ist, wird eine 1 angeh?ngt
+	if((hex.length()%2)==1)                         
 	{
 		char c = '1';
 		hex += c;
