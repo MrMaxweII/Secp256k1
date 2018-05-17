@@ -1,11 +1,11 @@
 import java.math.BigInteger;
 
-	/********************************************************************************************************************************************
-	 *                                                                    																		*
-	 *  Erstellt eine Liste mit allen exponential Zahlen der Secp256k1 Kurve, des Generator Punktes. G^0, G^1, G^2, G^3, G^4.... bis G^256) 	*
-	 *  Diese Klasse enthält nur eine Methode die das Zahlen-Array initialisiert. Muss min. eimmal beim Programm Start aufgefrufen werden!		*
-	 *  																																		*
-	 ********************************************************************************************************************************************/
+/************************************************************************************************************************************************
+ *                                                                    										*
+ *  Erstellt eine Liste mit allen exponential Zahlen der Secp256k1 Kurve, des Generator Punktes. G^0, G^1, G^2, G^3, G^4.... bis G^256) 	*
+ *  Diese Klasse enthält nur eine Methode die das Zahlen-Array initialisiert. Muss min. eimmal beim Programm Start aufgefrufen werden!		*
+ *  																		*
+ ************************************************************************************************************************************************/
 
 
 public class EXPList
@@ -15,14 +15,11 @@ public class EXPList
   public static BigInteger[] GENERATORHALB 	= new BigInteger[2];
  
 
-
 /**	Erstellt eine Liste mit allen exponential Zahlen der Secp256k1 Kurve, des Generator Punktes. G^0, G^1, G^2, G^3, G^4.... bis G^256) */
   public static void set_EXP_List() 
-  {
-	  
-	GENERATORHALB[0] = new BigInteger("3B78CE563F89A0ED9414F5AA28AD0D96D6795F9C63",16);     GENERATORHALB[1]  = new BigInteger("C0C686408D517DFD67C2367651380D00D126E4229631FD03F8FF35EEF1A61E3C",16);
-    
-    
+  {	  
+    GENERATORHALB[0] = new BigInteger("3B78CE563F89A0ED9414F5AA28AD0D96D6795F9C63",16);     GENERATORHALB[1]  = new BigInteger("C0C686408D517DFD67C2367651380D00D126E4229631FD03F8FF35EEF1A61E3C",16);
+     
     nullVektor[0] = new BigInteger("0",16); nullVektor[1]  = new BigInteger("0",16);
     list[0][0]  = new BigInteger("79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",16); list[0][1]  = new BigInteger("483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8",16);
     list[1][0]  = new BigInteger("c6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5",16); list[1][1]  = new BigInteger("1ae168fea63dc339a3c58419466ceaeef7f632653266d0e1236431a950cfe52a",16);
