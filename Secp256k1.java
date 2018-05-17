@@ -131,7 +131,8 @@ private static BigInteger[] multiply_Point(BigInteger[] point, BigInteger faktor
   
    
   
-//	Multiplikation auf der elliptischen Kurve mit 2  (Nur zur Vorberechnung, nicht zur laufzeit anwenden!)	m = (3*P[0]²)/(2*sqrt(P[0]²+7))
+//	Multiplikation auf der elliptischen Kurve mit 2  (Nur zur Vorberechnung, nicht zur laufzeit anwenden!)	
+//	m = (3*P[0]²)/(2*sqrt(P[0]²+7))
 //	n = P[1] - m*P[0];
 //	erg[0] = m² - 2*P[0]
 //	erg[1] = -(m*erg[0] + n)      
