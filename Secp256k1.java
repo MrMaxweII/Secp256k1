@@ -2,19 +2,18 @@ import java.math.*;
 import java.util.Arrays;
 
 
-	/********************************************************************************************
-	 * 	Secp256k1  V2.1   																		*       
-	 *	- Multipliziert einen Faktor mit einem Punkt auf der elliptischen Kurve.				*
-	 *	- Generiert den Pub.Key durch die Multiplikation von "G" mit dem Priv.Key.				*
-	 *	- Erzeugt ECDSA Signatur																*	
-	 *																							* 
-	 ********************************************************************************************/
-
+	/************************************************************************************************
+	 * 	Secp256k1  V2.1   									*       
+	 *	- Multipliziert einen Faktor mit einem Punkt auf der elliptischen Kurve.		*
+	 *	- Generiert den Pub.Key durch die Multiplikation von "G" mit dem Priv.Key.		*
+	 *	- Erzeugt ECDSA Signatur								*	
+	 *												* 
+	 ************************************************************************************************/
 
 
 public class Secp256k1
 { 
-  final static BigInteger p      = new BigInteger("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F",16);
+  final static BigInteger p           = new BigInteger("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F",16);
   final static BigInteger ModuloHalb  = new BigInteger("7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFE17",16);
   final static BigInteger GENERATOR   = new BigInteger("79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798",16);
   final static BigInteger GENERATORY  = new BigInteger("483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8",16);
@@ -184,7 +183,7 @@ public static BigInteger[]subtraktion(BigInteger[] p1, BigInteger[] p2)
 
 
 /**	Dividiert P/Q auf der elliptischen Kurve
- *  Wird nur zu Testzwecken benötigt.  */
+*  	Wird nur zu Testzwecken benötigt.  */
 public static BigInteger[] div(BigInteger[] P, BigInteger Q)
 {
 	BigInteger teiler = Math_Modulo.calcHalb(Q);
