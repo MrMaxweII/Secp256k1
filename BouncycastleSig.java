@@ -28,7 +28,7 @@ public class BouncycastleSig
  *	- die "rand" Zufallszahl als ByteArray.
  *	Rückgabe ist ein BigInteger-Array bestehend aus 2 Elementen: [0] = r   und    [1] = s. 
  *	Achtung: Die "rand" Zufallszahl muss aus einer kryptographisch starken Entropie stammen! 
- *	Falls "rand" vorhersebar ist, kann der Priv.Key leicht aufgedeckt werden!!! */	
+ *	Falls "rand" vorhersehbar ist, kann der Priv.Key leicht aufgedeckt werden!!! */	
 public static BigInteger[] sig(byte[] hash, byte[] priv, byte[] rand) 
 {
 	rand = Secp256k1.to_fixLength(rand,32);
