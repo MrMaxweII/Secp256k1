@@ -2,18 +2,22 @@ import java.math.*;
 import java.util.Arrays;
 
 
-	/************************************************************************************************
-	 * 	Secp256k1  V2.1   									*       
-	 *	- Multipliziert einen Faktor mit einem Punkt auf der elliptischen Kurve.		*
-	 *	- Generiert den Pub.Key durch die Multiplikation von "G" mit dem Priv.Key.		*
-	 *	- Erzeugt ECDSA Signatur								*	
-	 *												* 
-	 ************************************************************************************************/
+
+
+	/********************************************************************************************
+	 * 	Secp256k1  V2.2   																		*       
+	 *	- Multipliziert einen Faktor mit einem Punkt auf der elliptischen Kurve.				*
+	 *	- Generiert den Pub.Key durch die Multiplikation von "G" mit dem Priv.Key.				*
+	 *	- Erzeugt ECDSA Signatur																*	
+	 *	- Verifiziert ECDSA Signatur															*	
+	 *																							* 
+	 ********************************************************************************************/
+
+
 
 
 public class Secp256k1
 { 
-  final static BigInteger p           = new BigInteger("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F",16);
   final static BigInteger ModuloHalb  = new BigInteger("7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFE17",16);
   final static BigInteger GENERATOR   = new BigInteger("79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798",16);
   final static BigInteger GENERATORY  = new BigInteger("483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8",16);
@@ -31,13 +35,13 @@ public class Secp256k1
 
 
   
+  
 /**	Mit dem Kontruktor wird die EXP-List inizialisiert.
 *	Dies ist für die Multiplikation mit "G" notwendig!  */	 
 Secp256k1()
 {
 	EXPList.set_EXP_List();
 }
-
   
 
 
@@ -45,13 +49,13 @@ Secp256k1()
 /**	Es wird eine Signatur erstellt bestehend aus den Teilen "r" und "s".
  *	Übergeben wird der 32byte lange Hash, der signiert werden soll,
  *	- der Priv.Key 32Byte,
- *	- die "rand" Zufallszahl als ByteArray.
+ *	- die "rand" Zufallszahl "k" als ByteArray.
  *	Rückgabe ist ein BigInteger-Array bestehend aus 2 Elementen: [0] = r   und    [1] = s. 
- *	Achtung: Die "rand" Zufallszahl muss aus einer kryptographisch starken Entropie stammen! 
- *	Falls "rand" vorhersebar ist, kann der Priv.Key leicht aufgedeckt werden!!! */
-public BigInteger[] sig(byte[] hash, byte[] privKey, byte[] random) 
+ *	Achtung: Die "rand" Zufallszahl "k" muss aus einer kryptographisch starken Entropie stammen! 
+ *	Falls "k" vorhersebar ist, kann der Priv.Key leicht aufgedeckt werden!!! */
+public BigInteger[] sig(byte[] hash, byte[] privKey, byte[] k) 
 {
-	byte[] ran = to_fixLength(random,32);
+	byte[] ran = to_fixLength(k,32);
 	if(ran[0]<0)
 	{
 		ran = Arrays.copyOf(ran, 31);
@@ -60,9 +64,9 @@ public BigInteger[] sig(byte[] hash, byte[] privKey, byte[] random)
 	BigInteger rand = new BigInteger(1,ran);
 	BigInteger[] out= new BigInteger[2];	
 	BigInteger r  = multiply_G(rand)[0];
-	BigInteger r_x_priv	= r.multiply(new BigInteger(1,privKey)).mod(ORDNUNG);	
-	BigInteger zähler	= (new BigInteger(1,hash).add(r_x_priv)).mod(ORDNUNG);     
-	BigInteger k_inverse	= rand.modInverse(ORDNUNG);
+	BigInteger r_x_priv	=	r.multiply(new BigInteger(1,privKey)).mod(ORDNUNG);	
+	BigInteger zähler	=	(new BigInteger(1,hash).add(r_x_priv)).mod(ORDNUNG);     
+	BigInteger k_inverse= 	rand.modInverse(ORDNUNG);
 	out[0] = r;	
 	out[1] = k_inverse.multiply(zähler).mod(ORDNUNG);	
 	return out;
@@ -71,31 +75,33 @@ public BigInteger[] sig(byte[] hash, byte[] privKey, byte[] random)
 
 
 
-
-/**	Die Signatur "r" und "s" wird geprüft.  (not work korrect!!!)
+/**	Die Signatur "r" und "s" wird geprüft.
  *	- Übergeben wird der 32byte lange Hash, dessen Signatur geprüft werden soll,
  *	- die Signatur selbst "sig" als BigInteger-Array bestehend aus 2 Elementen: [0] = r   und    [1] = s. 
  *	- und der Pub.Key als BigInteger Array mit 2 Elementen.*/
-//public boolean verify(byte[] hash, BigInteger[] sig, BigInteger[] pub)
-//{
-//	BigInteger[] arg1 = multiply_G((new BigInteger(1,hash)).multiply(sig[1].modInverse(ORDNUNG)).mod(ORDNUNG));
-//	BigInteger[] arg2 = multiply_Point(pub ,  sig[0].multiply(sig[1].modInverse(ORDNUNG)).mod(ORDNUNG));
-//	BigInteger[] arg3 = addition(arg1, arg2);
-//	if(arg3[0].equals(sig[0])) return true;
-//	else return false;
-//}
+public boolean verify(byte[] hash, BigInteger[] sig, BigInteger[] pub)
+{
+	BigInteger h =  new BigInteger(1,hash).mod(ORDNUNG);
+	BigInteger s_invers = sig[1].modInverse(ORDNUNG);	
+	BigInteger[] arg1 = multiply_G(h.multiply(s_invers).mod(ORDNUNG));
+	BigInteger[] arg2 = multiply_Point(pub,sig[0].multiply(s_invers).mod(ORDNUNG));
+	BigInteger[] arg3 = addition(arg1,arg2);
+	if(arg3[0].equals(sig[0])) return true;
+	else return false;
+}
 
 
 
-/**	Multipliziert den Generator mit dem "faktor" auf der elliptischen Kurve.  
+
+/**	Multipliziert den Generator mit dem "factor" auf der elliptischen Kurve.  
 *	Schnelle Berechnung mit Hilfe der EXP_List.   ca. 3ms  */
-public BigInteger[] multiply_G(BigInteger faktor) 
+public BigInteger[] multiply_G(BigInteger factor) 
 {
 	BigInteger[] voher = EXPList.nullVektor;
 	BigInteger[] erg   = new BigInteger[2];
-	for(int i=0;i<255;i++)
+	for(int i=0;i<=255;i++)
 	{
-		if(faktor.testBit(i)==true)            
+		if(factor.testBit(i)==true)            
 		{
 		  erg = addition(voher,EXPList.list[i]); 
 		  voher = erg;
@@ -106,33 +112,34 @@ public BigInteger[] multiply_G(BigInteger faktor)
 
 
 
-/** Multipliziert einen eigenen Punkt "point" mit "faktor" auf der elliptischen Kurve.
+
+/** Multipliziert einen eigenen Punkt "point" mit "factor" auf der elliptischen Kurve.
  *  Rekusieve Funkton, sehr rechenintensiev und daher sehr langsam!	*/
-private static BigInteger[] multiply_Point(BigInteger[] point, BigInteger faktor)                       
+public static BigInteger[] multiply_Point(BigInteger[] point, BigInteger factor)                       
 {
 	BigInteger[] erg = point;
 	BigInteger[] NULL= new BigInteger[2];
 	NULL[0] = ZERO;
 	NULL[1] = ZERO; 
-	if(faktor.equals(ZERO)) return NULL;
-	if(faktor.equals(ONE)) return erg;
-	if(faktor.equals(TWO)) return multiply_2(erg);
-	if(faktor.equals(THREE)) return addition(multiply_2(erg),erg);
-	if(faktor.equals(FOUR)) return multiply_2(multiply_2(erg));
-	if(faktor.compareTo(FOUR)==1);     
+	if(factor.equals(ZERO)) return NULL;
+	if(factor.equals(ONE)) return erg;
+	if(factor.equals(TWO)) return multiply_2(erg);
+	if(factor.equals(THREE)) return addition(multiply_2(erg),erg);
+	if(factor.equals(FOUR)) return multiply_2(multiply_2(erg));
+	if(factor.compareTo(FOUR)==1);     
 	{ 
-		int exp = faktor.bitLength()-1;
+		int exp = factor.bitLength()-1;
 		for(;exp >0;exp--)erg = multiply_2(erg);
-		faktor = faktor.clearBit(faktor.bitLength()-1);
-		erg = addition(multiply_Point(point,faktor),erg);
+		factor = factor.clearBit(factor.bitLength()-1);
+		erg = addition(multiply_Point(point,factor),erg);
 	}
 	return erg;        
 }  
   
-   
-  
-//	Multiplikation auf der elliptischen Kurve mit 2  (Nur zur Vorberechnung, nicht zur laufzeit anwenden!)	
-//	m = (3*P[0]²)/(2*sqrt(P[0]²+7))
+
+
+
+//	Multiplikation auf der elliptischen Kurve mit 2  (Nur zur Vorberechnung, nicht zur laufzeit anwenden!)	m = (3*P[0]²)/(2*sqrt(P[0]²+7))
 //	n = P[1] - m*P[0];
 //	erg[0] = m² - 2*P[0]
 //	erg[1] = -(m*erg[0] + n)      
@@ -146,9 +153,10 @@ private static BigInteger[] multiply_2(BigInteger[] P)
 	erg[1] = Math_Modulo.neg(Math_Modulo.add(Math_Modulo.mul(m,erg[0]) , n));
 	return erg;        
 } 
-  
-  
-  
+
+
+ 
+
 /**	Addiert ein Punkt P mit dem Punkt Q auf der elliptischen Kurve.
 *	m = (Q[1]-P[1])/(Q[0]-P[0])
 *	n = P[1] - m*P[0];
@@ -170,6 +178,7 @@ public static BigInteger[] addition(BigInteger[] po1, BigInteger[] po2)
 } 
  
   
+
   
 /**	Subtrahiert ein Punkt P mit dem Punkt Q auf der elliptischen Kurve.
 *	Wird nur zu Testzwecken benötigt.  */
@@ -184,7 +193,7 @@ public static BigInteger[]subtraktion(BigInteger[] p1, BigInteger[] p2)
 
 
 /**	Dividiert P/Q auf der elliptischen Kurve
-*  	Wird nur zu Testzwecken benötigt.  */
+ *  Wird nur zu Testzwecken benötigt.  */
 public static BigInteger[] div(BigInteger[] P, BigInteger Q)
 {
 	BigInteger teiler = Math_Modulo.calcHalb(Q);
