@@ -7,8 +7,8 @@ import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 
 	/****************************************************************************************
 	*											*
-	* 	Hier werden die Funktionen und die Laufzeit von Secp256k1 getestet.  		*       
-	*											* 
+	* 	Hier werden die Funktionen und die Laufzeit von Secp256k1 getestet.  		*
+	*											*
 	*****************************************************************************************/
 
 
@@ -16,21 +16,21 @@ import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 public class Test 
 {
 
-	
+
 final static int 		testRuns = 10;	// Hier die Anzahl der Testläufe änerden!
 public static byte[] 		rand;
 public static byte[] 		hash;
 public static  byte[]		priv;
-private static BigInteger[]	pub 	= new BigInteger[2];																						
-private static BigInteger[]	sig 	= new BigInteger[2];	
+private static BigInteger[]	pub 	= new BigInteger[2];
+private static BigInteger[]	sig 	= new BigInteger[2];
 
 
-	
 
-public static void main(String[] args)  
+
+public static void main(String[] args)
 {
 	createOneSig();
-	allRandomTest();	
+	allRandomTest();
 }
 	  
 
@@ -40,7 +40,7 @@ public static void main(String[] args)
 private static void createOneSig()
 {
 	rand 	= hexStringToByteArray	("000aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");				 // Zufall (K)
-	hash 	= hexStringToByteArray	("fff88df40bcedbe641ddb16ff0a1842d9c67ea1c3bf63f3e0471baa664531d1a");	 // Hash	  (M)
+	hash 	= hexStringToByteArray	("fff88df40bcedbe641ddb16ff0a1842d9c67ea1c3bf63f3e0471baa664531d1a");	 // Hash (M)
 	priv 	= hexStringToByteArray	("fff112222233333444445555566666777778888899999aaaaabbbbbcccccdddd");	 // Priv.Key
 	pub[0] 	= new BigInteger	("FF409479FF9667B49F4BEDFE3191E6078C15873012E6D05A534EA9DB6FA9736B",16); // Pub.Key x
 	pub[1] 	= new BigInteger	("4307E003C4D2E575435414970F8C971758AD64C697B1BB6EA25F9C624CF54422",16); // Pub.Key y
