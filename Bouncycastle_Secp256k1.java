@@ -17,14 +17,14 @@ import org.bouncycastle.util.encoders.Hex;
 
 
 
-	/********************************************************************************************
-	 * 																							*
-	 *		Ellipische Kurven-Operationen Secp256k1 mit Bouncycastle							* 
-	 *		-	Erstellung einer ECDSA Signatur													*
-	 *		-	Verifizierung der ECDSA Signatur												*
-	 *		-	EC-Multiplikation und Addition													*
-	 *																							*
-	 ********************************************************************************************/
+	/***********************************************************************************************
+	 * 												*
+	 *		Ellipische Kurven-Operationen Secp256k1 mit Bouncycastle			* 
+	 *		-	Erstellung einer ECDSA Signatur						*
+	 *		-	Verifizierung der ECDSA Signatur					*
+	 *		-	EC-Multiplikation und Addition						*
+	 *												*
+	 ***********************************************************************************************/
 
 
 
@@ -48,13 +48,13 @@ public static BigInteger[] sig(byte[] hash, byte[] priv, byte[] k)
 {
 	k = Secp256k1.to_fixLength(k,32);
 	X9ECParameters p = SECNamedCurves.getByName("secp256k1");
-    ECDomainParameters params = new ECDomainParameters(p.getCurve(), p.getG(), p.getN(), p.getH());
-    ECPrivateKeyParameters priKey 	= new ECPrivateKeyParameters(new BigInteger	(1,priv), params);	
-    SecureRandom rand = new FixedSecureRandom(k);   			   
-    ECDSASigner dsa = new ECDSASigner();
-    dsa.init(true, new ParametersWithRandom(priKey, rand));
-    BigInteger[] sig = dsa.generateSignature(hash);
-    return sig;
+ 	ECDomainParameters params = new ECDomainParameters(p.getCurve(), p.getG(), p.getN(), p.getH());
+	ECPrivateKeyParameters priKey = new ECPrivateKeyParameters(new BigInteger(1,priv), params);	
+	SecureRandom rand = new FixedSecureRandom(k);   			   
+	ECDSASigner dsa = new ECDSASigner();
+	dsa.init(true, new ParametersWithRandom(priKey, rand));
+	BigInteger[] sig = dsa.generateSignature(hash);
+	return sig;
 }
 	
 	
@@ -67,12 +67,12 @@ public static BigInteger[] sig(byte[] hash, byte[] priv, byte[] k)
 public static boolean verify(byte[] hash, BigInteger[] sig, BigInteger[] pub)
 {			   
 	X9ECParameters p = SECNamedCurves.getByName("secp256k1");
-    ECDomainParameters params = new ECDomainParameters(p.getCurve(), p.getG(), p.getN(), p.getH());
+	ECDomainParameters params = new ECDomainParameters(p.getCurve(), p.getG(), p.getN(), p.getH());
 	ECDSASigner dsa = new ECDSASigner();
-    ECPublicKeyParameters pubKey = new ECPublicKeyParameters(params.getCurve().decodePoint(Hex.decode("04" + pub[0].toString(16) + pub[1].toString(16) )), params); 
-    dsa.init(false, pubKey);
-    if (dsa.verifySignature(hash, sig[0], sig[1]))  return true;
-    else return false; 
+	ECPublicKeyParameters pubKey = new ECPublicKeyParameters(params.getCurve().decodePoint(Hex.decode("04" + pub[0].toString(16) + pub[1].toString(16) )), params); 
+	dsa.init(false, pubKey);
+	if (dsa.verifySignature(hash, sig[0], sig[1]))  return true;
+	else return false; 
 }	
 
 
