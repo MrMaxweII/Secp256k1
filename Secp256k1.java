@@ -4,14 +4,14 @@ import java.util.Arrays;
 
 
 
-	/********************************************************************************************
-	 * 	Secp256k1  V2.2   																		*       
-	 *	- Multipliziert einen Faktor mit einem Punkt auf der elliptischen Kurve.				*
-	 *	- Generiert den Pub.Key durch die Multiplikation von "G" mit dem Priv.Key.				*
-	 *	- Erzeugt ECDSA Signatur																*	
-	 *	- Verifiziert ECDSA Signatur															*	
-	 *																							* 
-	 ********************************************************************************************/
+	/***********************************************************************************************
+	 * 	Secp256k1  V2.2   									*       
+	 *	- Multipliziert einen Faktor mit einem Punkt auf der elliptischen Kurve.		*
+	 *	- Generiert den Pub.Key durch die Multiplikation von "G" mit dem Priv.Key.		*
+	 *	- Erzeugt ECDSA Signatur								*	
+	 *	- Verifiziert ECDSA Signatur								*	
+	 *												* 
+	 ***********************************************************************************************/
 
 
 
@@ -64,8 +64,8 @@ public BigInteger[] sig(byte[] hash, byte[] privKey, byte[] k)
 	BigInteger rand = new BigInteger(1,ran);
 	BigInteger[] out= new BigInteger[2];	
 	BigInteger r  = multiply_G(rand)[0];
-	BigInteger r_x_priv	=	r.multiply(new BigInteger(1,privKey)).mod(ORDNUNG);	
-	BigInteger zähler	=	(new BigInteger(1,hash).add(r_x_priv)).mod(ORDNUNG);     
+	BigInteger r_x_priv = r.multiply(new BigInteger(1,privKey)).mod(ORDNUNG);	
+	BigInteger zähler   = (new BigInteger(1,hash).add(r_x_priv)).mod(ORDNUNG);     
 	BigInteger k_inverse= 	rand.modInverse(ORDNUNG);
 	out[0] = r;	
 	out[1] = k_inverse.multiply(zähler).mod(ORDNUNG);	
@@ -193,7 +193,7 @@ public static BigInteger[]subtraktion(BigInteger[] p1, BigInteger[] p2)
 
 
 /**	Dividiert P/Q auf der elliptischen Kurve
- *  Wird nur zu Testzwecken benötigt.  */
+ *  	Wird nur zu Testzwecken benötigt.  */
 public static BigInteger[] div(BigInteger[] P, BigInteger Q)
 {
 	BigInteger teiler = Math_Modulo.calcHalb(Q);
