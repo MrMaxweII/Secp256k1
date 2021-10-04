@@ -8,8 +8,8 @@ import org.json.JSONObject;
 
 
 /***********************************************************************************************
-*	Version 1.0 Autor: Mr. Maxwell	vom 04.10.2021											*
-*	Hier werden Testvektoren im JSON Format ausgegeben.										*
+*	Version 1.0 Autor: Mr. Maxwell	vom 04.10.2021						*
+*	Hier werden Testvektoren im JSON Format ausgegeben.					*
 *	Die Testvektoren sind das Ergebnis einer ECC-Multiplikation auf der secp256k1 Kurve.	*
 ************************************************************************************************/
 
