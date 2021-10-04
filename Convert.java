@@ -6,9 +6,8 @@ import java.util.Arrays;
 
 
 /************************************************************************************************************
- *	Version 1.5    Autor: Mr. Maxwell   	vom 09.01.2020		decodeMAGIC() wurde hinzugefügt				*
- *	Hier werden verschiedene Konvertierungen vorgenommen.													*
- *																											*
+ *	Version 1.5    Autor: Mr. Maxwell   	vom 09.01.2020		decodeMAGIC() wurde hinzugefügt		*
+ *	Hier werden verschiedene Konvertierungen vorgenommen.							*
  ************************************************************************************************************/
 
 
@@ -37,8 +36,8 @@ public static String decodeMAGIC(byte[] MAGIC)
 
 
 
-/** Wandelt ein Byte in Boolean um.
-@param b Wenn das Byte nicht 0x00 ist wird true zurück gegeben. **/	
+/** 	Wandelt ein Byte in Boolean um.
+	@param b Wenn das Byte nicht 0x00 ist wird true zurück gegeben. **/	
 public static boolean byteToBool(byte b) 
 {
 	return (b != 0x00) ;
@@ -46,9 +45,9 @@ public static boolean byteToBool(byte b)
 
 
 
-/** Wandelt ein Boolean in Byte um.
-@param bool Wenn bool = false wird, 0x00 zurück gegeben.
-Wenn bool = true, wird 0xff zurück gegeben. **/
+/** 	Wandelt ein Boolean in Byte um.
+	@param bool Wenn bool = false wird, 0x00 zurück gegeben.
+	Wenn bool = true, wird 0xff zurück gegeben. **/
 public static byte boolToByte(boolean bool) 
 {	
 	if(bool) return (byte)0xff;
@@ -93,7 +92,7 @@ public static byte[] hexStringToByteArray_oddLength(String hex)
 
 
   
-/** Byte Array wird in einen Hexa String konvertiert. */
+/** 	Byte Array wird in einen Hexa String konvertiert. */
 public static String byteArrayToHexString(byte[] a) 
 {
 	StringBuilder sb = new StringBuilder(a.length * 2);
@@ -104,7 +103,7 @@ public static String byteArrayToHexString(byte[] a)
 	
 
 
-/** Konvertiert ein Double in 8 Byte-Array **/
+/** 	Konvertiert ein Double in 8 Byte-Array **/
 public static byte[] double_to_8Bytes(double value) 
 {
     byte[] bytes = new byte[8];
@@ -140,7 +139,7 @@ public static int int_convert_int(int in)
 
 
 
-/** Wandelt ein Base58 Text-String in Hex-String um. 
+/** 	Wandelt ein Base58 Text-String in Hex-String um. 
 	In "laenge" wird die Anzahl der Ausgabe-Zeichen übergeben. */
 public static String Base58ToHexString(String str, int laenge)
 {
@@ -262,7 +261,7 @@ public static byte[] swapBytesCopy(byte[] in)
 
 
 
-/** Wandelt Byte-Array in Integer um, nur positive Zahlen.
+/** 	Wandelt Byte-Array in Integer um, nur positive Zahlen.
 	Es werden maximal nur die ersten 4 Bytes verwendet.
 	Im Fehlerfall wird -1 zurückgegeben
 	Maximaler Byte Wert für positive Werte: 7f ff ff ff  = 2147483647  = Maximaler positiver Integer Wert		*/
@@ -277,7 +276,7 @@ public static int byteArray_to_int(byte[] b)
 
 
 
-/** Wandelt Byte-Array in Long um, nur positive Zahlen.
+/** 	Wandelt Byte-Array in Long um, nur positive Zahlen.
  	Wenn mehr als 8 Byte übergeben werden, werden nur die vordersten 8 Byte zur Berechnung benutzt.
 	Maximaler Byte Wert für positive Werte: 7f ff ff ff ff ff ff ff  = 2^63-1 Maximaler positiver Long wert	*/
 public static long byteArray_to_long(byte[] b) 
